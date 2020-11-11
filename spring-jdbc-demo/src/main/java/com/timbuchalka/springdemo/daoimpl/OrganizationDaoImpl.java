@@ -4,16 +4,20 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import com.timbuchalka.springdemo.dao.OrganizationDao;
 import com.timbuchalka.springdemo.domain.Organization;
 
+@Repository("organizationDaoImpl")
 public class OrganizationDaoImpl implements OrganizationDao {
 
 	private JdbcTemplate jdbcTemplate;
 
-	public void setDataSource(DataSource dataSource) {
+	@Autowired
+	public OrganizationDaoImpl(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
@@ -28,7 +32,7 @@ public class OrganizationDaoImpl implements OrganizationDao {
 	}
 
 	public List<Organization> getAllOrganizations() {
-		
+
 		String sqlQuery = "SELECT * FROM organization";
 		List<Organization> list = jdbcTemplate.query(sqlQuery, new OrganizationRowMapper());
 		return list;

@@ -16,12 +16,12 @@
 		<property name="url" value="${jdbc.url}"></property>
 	</bean>
 
-	<!-- bean -->
-	<bean id="organizationDaoImpl"
-		class="com.timbuchalka.springdemo.daoimpl.OrganizationDaoImpl">
-		<property name="dataSource" ref="ds"></property>
-	</bean>
+	<!-- <bean id="organizationDaoImpl" class="com.timbuchalka.springdemo.daoimpl.OrganizationDaoImpl"> 
+		<constructor-arg name="dataSource" ref="ds"> </constructor-arg> </bean> -->
 
 	<context:property-placeholder
 		location="organization.properties" />
+
+	<context:component-scan
+		base-package="com.timbuchalka.springdemo"></context:component-scan>
 </beans>
