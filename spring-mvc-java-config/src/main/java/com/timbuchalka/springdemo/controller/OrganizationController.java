@@ -20,7 +20,7 @@ public class OrganizationController {
 		this.organizationService = organizationService;
 	}
 
-	@RequestMapping
+	@RequestMapping("/jstlsql")
 	public String getOrganizationUsingSQLTag() {
 
 		return "listOrganizationUsingSql";
