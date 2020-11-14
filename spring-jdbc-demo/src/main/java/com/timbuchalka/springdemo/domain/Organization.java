@@ -9,6 +9,22 @@ public class Organization {
 	private int employeeCount;
 	private String slogan;
 
+	// == constructors ==
+	public Organization() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Organization(String companyName, int yearOfIncorporation, String postalCode, int employeeCount,
+			String slogan) {
+		this.companyName = companyName;
+		this.yearOfIncorporation = yearOfIncorporation;
+		this.postalCode = postalCode;
+		this.employeeCount = employeeCount;
+		this.slogan = slogan;
+	}
+
+	// == getters & setters
+
 	public int getId() {
 		return id;
 	}
