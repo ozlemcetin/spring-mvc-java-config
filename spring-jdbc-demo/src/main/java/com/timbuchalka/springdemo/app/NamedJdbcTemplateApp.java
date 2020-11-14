@@ -1,17 +1,28 @@
 package com.timbuchalka.springdemo.app;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.BadSqlGrammarException;
+import org.springframework.stereotype.Component;
 
 import com.timbuchalka.springdemo.dao.OrganizationDao;
-import com.timbuchalka.springdemo.daoimpl.OrganizationDaoJdbcImpl;
 import com.timbuchalka.springdemo.domain.Organization;
 import com.timbuchalka.springdemo.utils.DaoUtils;
 import com.timbuchalka.springdemo.utils.OrganizationUtils;
 
-public class JdbcTemplateClassicApp {
+@Component
+public class NamedJdbcTemplateApp {
+
+	private final OrganizationDao dao;
+	private final OrganizationUtils organizationUtils;
+	private final DaoUtils daoUtils;
+
+	@Autowired
+	public NamedJdbcTemplateApp(OrganizationDao dao, OrganizationUtils organizationUtils, DaoUtils daoUtils) {
+		this.dao = dao;
+		this.organizationUtils = organizationUtils;
+		this.daoUtils = daoUtils;
+	}
 
 	public static void main(String[] args) {
 
@@ -19,20 +30,17 @@ public class JdbcTemplateClassicApp {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("beans-cp.xml");
 
 		// create the bean
-		OrganizationDao dao = (OrganizationDaoJdbcImpl) ctx.getBean("organizationDaoJdbcImpl");
-
-		// get util classes
-		OrganizationUtils organizationUtils = new OrganizationUtils();
-		DaoUtils daoUtils = new DaoUtils();
+		NamedJdbcTemplateApp mainApp = ctx.getBean(NamedJdbcTemplateApp.class);
 
 		// main action
-		mainAction(dao, organizationUtils, daoUtils);
+		mainApp.mainAction();
 
 		// close the application context
 		((ClassPathXmlApplicationContext) ctx).close();
+
 	}
 
-	public static void mainAction(OrganizationDao dao, OrganizationUtils organizationUtils, DaoUtils daoUtils) {
+	public void mainAction() {
 
 		// creating seed data
 		organizationUtils.createSeedData(dao);
@@ -64,19 +72,9 @@ public class JdbcTemplateClassicApp {
 
 		// Delete an organization
 		{
-			try {
 
-				boolean isDeleted = dao.delete(dao.getOrganization(1));
-				daoUtils.printSuccessFailure(daoUtils.DELETE, isDeleted);
-
-			} catch (BadSqlGrammarException e) {
-				System.out.println("SUB EXCEPTION MESSAGE :" + e.getMessage());
-				System.out.println("SUB EXCEPTION CLASS :" + e.getClass());
-
-			} catch (DataAccessException e) {
-				System.out.println("EXCEPTION MESSAGE :" + e.getMessage());
-				System.out.println("EXCEPTION CLASS :" + e.getClass());
-			}
+			boolean isDeleted = dao.delete(dao.getOrganization(1));
+			daoUtils.printSuccessFailure(daoUtils.DELETE, isDeleted);
 
 		}
 

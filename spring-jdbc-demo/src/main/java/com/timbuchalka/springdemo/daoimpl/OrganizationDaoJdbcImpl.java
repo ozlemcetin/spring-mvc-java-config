@@ -11,28 +11,14 @@ import org.springframework.stereotype.Repository;
 import com.timbuchalka.springdemo.dao.OrganizationDao;
 import com.timbuchalka.springdemo.domain.Organization;
 
-@Repository("organizationDaoImpl")
-public class OrganizationDaoImpl implements OrganizationDao {
+//@Repository("organizationDaoJdbcImpl")
+public class OrganizationDaoJdbcImpl implements OrganizationDao {
 
 	private JdbcTemplate jdbcTemplate;
 
 	@Autowired
-	public OrganizationDaoImpl(DataSource dataSource) {
+	public OrganizationDaoJdbcImpl(DataSource dataSource) {
 		jdbcTemplate = new JdbcTemplate(dataSource);
-	}
-
-	public boolean create(Organization org) {
-
-		String sqlQuery = "INSERT INTO organization "
-				+ "(company_name, year_of_incorporation, postal_code, employee_count, slogan) "
-				+ "VALUES(?, ?, ?, ?, ?)";
-
-		Object[] args = new Object[] { org.getCompanyName(), org.getYearOfIncorporation(), org.getPostalCode(),
-				org.getEmployeeCount(), org.getSlogan() };
-
-		// update
-		int numberOfRecordsAffected = jdbcTemplate.update(sqlQuery, args);
-		return numberOfRecordsAffected == 1;
 	}
 
 	public Organization getOrganization(Integer id) {
@@ -56,9 +42,23 @@ public class OrganizationDaoImpl implements OrganizationDao {
 		return list;
 	}
 
+	public boolean create(Organization org) {
+
+		String sqlQuery = "INSERT INTO organization "
+				+ "(company_name, year_of_incorporation, postal_code, employee_count, slogan) "
+				+ "VALUES(?, ?, ?, ?, ?)";
+
+		Object[] args = new Object[] { org.getCompanyName(), org.getYearOfIncorporation(), org.getPostalCode(),
+				org.getEmployeeCount(), org.getSlogan() };
+
+		// update
+		int numberOfRecordsAffected = jdbcTemplate.update(sqlQuery, args);
+		return numberOfRecordsAffected == 1;
+	}
+
 	public boolean delete(Organization org) {
 
-		String sqlQuery = "DELETE FROM  organization WHERE id = ?";
+		String sqlQuery = "DELE FROM  organization WHERE id = ?";
 
 		Object[] args = new Object[] { org.getId() };
 

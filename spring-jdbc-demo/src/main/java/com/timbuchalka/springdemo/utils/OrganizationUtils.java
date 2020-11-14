@@ -3,12 +3,15 @@ package com.timbuchalka.springdemo.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.timbuchalka.springdemo.dao.OrganizationDao;
 import com.timbuchalka.springdemo.domain.Organization;
 
+@Component
 public class OrganizationUtils {
 
-	public static void printOrganizations(List<Organization> orgs, String operation) {
+	public void printOrganizations(List<Organization> orgs, String operation) {
 
 		System.out.println("\n********* printing organizations after " + operation + " operation *********");
 		for (Organization org : orgs) {
@@ -16,11 +19,11 @@ public class OrganizationUtils {
 		}
 	}
 
-	public static void printOrganization(Organization org, String operation) {
+	public void printOrganization(Organization org, String operation) {
 		System.out.println("\n**********Printing organization after invoking " + operation + " *********\n" + org);
 	}
 
-	public static void createSeedData(OrganizationDao dao) {
+	public void createSeedData(OrganizationDao dao) {
 
 		Organization org1 = new Organization("Amazon", 1994, "65656", 8765, "Work hard, have fun, make history");
 		Organization org2 = new Organization("BMW", 1929, "45454", 5501, "We build ultimate Driving machines");
@@ -42,7 +45,7 @@ public class OrganizationUtils {
 		System.out.println("Created " + createCount + " organizations");
 	}
 
-	public static void printOrganizationCount(List<Organization> orgs, String operation) {
+	public void printOrganizationCount(List<Organization> orgs, String operation) {
 
 		System.out.println("\n*********Currently we have " + orgs.size() + " organizations after " + operation
 				+ " operation" + "   *********");
